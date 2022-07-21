@@ -14,7 +14,7 @@ Base = declarative_base()
 
 class CharacterModel(Base):
     __tablename__ = 'characters'
-    id_in_swapi = sq.Column(sq.Integer, primary_key=True)  # url
+    id_in_swapi = sq.Column(sq.Integer, primary_key=True)
     name = sq.Column(sq.String)
     height = sq.Column(sq.String)
     mass = sq.Column(sq.String)
@@ -24,10 +24,10 @@ class CharacterModel(Base):
     birth_year = sq.Column(sq.String)
     gender = sq.Column(sq.String)
     homeworld = sq.Column(sq.String)
-    films = sq.Column(sq.String)  # list
-    species = sq.Column(sq.String)  # list
-    vehicles = sq.Column(sq.String)  # list
-    starships = sq.Column(sq.String)  # list
+    films = sq.Column(sq.String)
+    species = sq.Column(sq.String)
+    vehicles = sq.Column(sq.String)
+    starships = sq.Column(sq.String)
     # created
     # edited
     # url
@@ -41,8 +41,7 @@ class CharacterModel(Base):
                 session.add(new_character)
                 try:
                     await session.commit()
-                except Exception as err:
-                    # print(err)
+                except Exception:
                     await session.rollback()
                 new_character_data = {
                     'id': new_character.id_in_swapi,
@@ -68,7 +67,6 @@ async def get_async_session(drop: bool = False, create: bool = False):
 
 
 async def main():
-    # await get_async_session(create=True)
     db_session = await get_async_session(True, True)
     character = {'name': 'Anakin Skywalker', 'height': '188', 'mass': '84', 'hair_color': 'blond', 'skin_color': 'fair', 'eye_color': 'blue', 'birth_year': '41.9BBY', 'gender': 'male', 'homeworld': 'Tatooine', 'films': 'The Phantom Menace,Attack of the Clones,Revenge of the Sith', 'species': '', 'vehicles': 'Zephyr-G swoop bike,XJ-6 airspeeder', 'starships': 'Naboo fighter,Trade Federation cruiser,Jedi Interceptor', 'id_in_swapi': 11}
     await CharacterModel.create(character,db_session)
