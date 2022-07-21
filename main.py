@@ -138,15 +138,14 @@ async def get_characters(count, session, db_session, cats_info, partition=PARTIT
             get_character(id, session, db_session, cats_info)
             for id in chunked_ids if id != 17
         ]
-        yield await asyncio.gather(*coros)
+        await asyncio.gather(*coros)
 
 
 async def main():
     async with aiohttp.ClientSession() as session:
         db_session = await get_async_session(True, True)
         cats_info_dict = await get_categories(session)
-        async for character in get_characters(COUNT_PEOPLE, session, db_session, cats_info_dict):
-            continue
+        await get_characters(COUNT_PEOPLE, session, db_session, cats_info_dict)
 
 
 if __name__ == '__main__':
