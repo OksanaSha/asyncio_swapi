@@ -1,3 +1,4 @@
 venv/
 .idea/
 123.py
+__pycache__/
